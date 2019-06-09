@@ -7,3 +7,6 @@
 **/*.lib
 **/*.swp
 
+**/*.db-shm
+**/*.db-wal
+**/*.opendb
