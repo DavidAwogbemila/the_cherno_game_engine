@@ -13,8 +13,8 @@ int main(int argc, char** argv) {
 
   HZ_CORE_WARN("Core logger issuing a warning!");
   HZ_INFO("Core logger furnished info.");
-  int a = 5;
-  HZ_INFO("Hello Var={0}", a);
+  //int a = 5;
+  //HZ_INFO("Hello Var={0}", a);
  
   auto app = Hazel::CreateApplication();
   app->Run();

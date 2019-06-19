@@ -1,8 +1,15 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Hazel",
+    "\\Hazel\\src",
+    "\\Hazel\\src\\Hazel",
+    "\\Hazel\\src\\Hazel\\Events",
+    "\\Hazel\\vendor",
+    "\\Hazel\\vendor\\spdlog",
+    "\\Sandbox",
     "\\Sandbox\\src"
   ],
-  "SelectedNode": "\\Sandbox",
+  "SelectedNode": "\\Hazel\\src\\Hazel\\Events\\KeyEvent.h",
   "PreviewInSolutionExplorer": false
 }
