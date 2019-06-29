@@ -1,20 +1,14 @@
 #pragma once
 
-#include "stdio.h"
-
 #ifdef HZ_PLATFORM_WINDOWS
 
 extern Hazel::Application* Hazel::CreateApplication();
 
 int main(int argc, char** argv) {
-  printf("Entered the Hazel Engine.\n");
-
   Hazel::Log::Init();
 
-  HZ_CORE_WARN("Core logger issuing a warning!");
-  HZ_INFO("Core logger furnished info.");
-  //int a = 5;
-  //HZ_INFO("Hello Var={0}", a);
+  HZ_CORE_WARN("[WARNING] Core Logger ready");
+  HZ_INFO("[INFO] Client Logger ready.");
  
   auto app = Hazel::CreateApplication();
   app->Run();

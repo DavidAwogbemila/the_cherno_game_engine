@@ -1,7 +1,5 @@
 #pragma once
 
-#include <sstream>
-
 #include "Event.h"
 
 namespace Hazel {
@@ -11,13 +9,13 @@ namespace Hazel {
       : m_MouseX(x), m_MouseY(y) {
     }
 
-    inline float GetX() { return m_MouseX; }
-    inline float GetY() { return m_MouseY; }
+    inline float GetX() const { return m_MouseX; }
+    inline float GetY() const { return m_MouseY; }
 
-    std::string ToString() {
-      std::stringstream ss;
-      ss << "MouseMovedEvent: " << m_MouseX << ", " << m_MouseY;
-      return ss.str();
+    std::string ToString() const {
+      std::stringstream stringstream;
+      stringstream << "MouseMovedEvent: " << GetX() << ", " << GetY();
+      return stringstream.str();
     }
 
     EVENT_CLASS_TYPE(MouseMoved);
@@ -33,12 +31,12 @@ namespace Hazel {
       : m_XOffset(Xoffset), m_YOffset(Yoffset) {
     }
 
-    inline float GetXOffset() { return m_XOffset; }
-    inline float GetYOffset() { return m_YOffset; }
+    inline float GetXOffset() const { return m_XOffset; }
+    inline float GetYOffset() const { return m_YOffset; }
 
-    std::string ToString() const override {
+    std::string ToString() const {
       std::stringstream ss;
-      ss << "MouseScrolledEvent: " << GetXOffset << ", " << GetYOffset;
+      ss << "MouseScrolledEvent: " << GetXOffset() << ", " << GetYOffset();
       return ss.str();
     }
 

@@ -3,13 +3,11 @@
     "",
     "\\Hazel",
     "\\Hazel\\src",
-    "\\Hazel\\src\\Hazel",
-    "\\Hazel\\src\\Hazel\\Events",
-    "\\Hazel\\vendor",
-    "\\Hazel\\vendor\\spdlog",
-    "\\Sandbox",
-    "\\Sandbox\\src"
+    "\\Hazel\\src\\Platform",
+    "\\Hazel\\src\\Platform\\Windows",
+    "\\Hazel\\vendor\\GLFW",
+    "\\vendor"
   ],
-  "SelectedNode": "\\Hazel\\src\\Hazel\\Events\\KeyEvent.h",
+  "SelectedNode": "\\Hazel\\src\\Platform\\Windows\\WindowsWindow.cpp",
   "PreviewInSolutionExplorer": false
 }
