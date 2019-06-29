@@ -1,6 +1,11 @@
 .vs/*
 
-src/vendor/
+Hazel/vendor/
+
+vendor/
+
+bin/
+bin-int/
 
 **/*.ipch
 **/*.dll
