@@ -1,7 +1,6 @@
-.vs/*
+.vs/
 
 Hazel/vendor/
-
 vendor/
 
 bin/
