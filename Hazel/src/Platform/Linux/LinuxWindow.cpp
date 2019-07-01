@@ -1,39 +1,37 @@
 #include "hzpch.h"
-#include "WindowsWindow.h"
+#include "LinuxWindow.h"
 
 #include "Hazel/Event/ApplicationEvent.h"
 #include "Hazel/Event/KeyEvent.h"
 #include "Hazel/Event/MouseEvent.h"
-
-#include "glad/glad.h"
 
 namespace Hazel {
 
   static void GLFWErrorCallback(int error, const char* description) {
     HZ_CORE_ERROR("GLFW Error: {0} => {1}", error, description);
   }
-  
+
   static bool s_GLFWInitialized = false;
 
-#ifdef HZ_PLATFORM_WINDOWS
+#ifdef HZ_PLATFORM_LINUX
 
   Window* Window::Create(const WindowProps& props) {
-    return new WindowsWindow(props);
+    return new LinuxWindow(props);
   }
 
 #else 
 
 #endif
 
-  WindowsWindow::WindowsWindow(const WindowProps& props) {
+  LinuxWindow::LinuxWindow(const WindowProps& props) {
     Init(props);
   }
 
-  WindowsWindow::~WindowsWindow() {
+  LinuxWindow::~LinuxWindow() {
     Shutdown();
   }
 
-  void WindowsWindow::Init(const WindowProps& props) {
+  void LinuxWindow::Init(const WindowProps& props) {
     m_Data.Title = props.Title;
     m_Data.Width = props.Width;
     m_Data.Height = props.Height;
@@ -50,8 +48,6 @@ namespace Hazel {
 
     m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
     glfwMakeContextCurrent(m_Window);
-    int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-    HZ_CORE_ASSERT(status, "Failed to initialize GLAD");
     glfwSetWindowUserPointer(m_Window, &m_Data);
     SetVSync(true);
 
@@ -91,7 +87,7 @@ namespace Hazel {
       {
         KeyPressedEvent event(key, 0);
         data.EventCallback(event);
-        break;  
+        break;
       }
       }
     });
@@ -114,7 +110,7 @@ namespace Hazel {
 
       MouseScrolledEvent event((float)xOffset, (float)yOffset);
       data.EventCallback(event);
-      
+
     });
 
     glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPosition, double yPosition) {
@@ -125,17 +121,17 @@ namespace Hazel {
     });
   }
 
-  void WindowsWindow::Shutdown() {
+  void LinuxWindow::Shutdown() {
     HZ_CORE_INFO("Shutting down.");
     glfwDestroyWindow(m_Window);
   }
 
-  void WindowsWindow::OnUpdate() {
+  void LinuxWindow::OnUpdate() {
     glfwPollEvents();
     glfwSwapBuffers(m_Window);
   }
 
-  void WindowsWindow::SetVSync(bool enabled) {
+  void LinuxWindow::SetVSync(bool enabled) {
     if (enabled)
       glfwSwapInterval(1);
     else
@@ -144,7 +140,7 @@ namespace Hazel {
     m_Data.VSync = enabled;
   }
 
-  bool WindowsWindow::IsVSync() const {
+  bool LinuxWindow::IsVSync() const {
     return m_Data.VSync;
   }
 }

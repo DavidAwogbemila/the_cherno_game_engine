@@ -2,14 +2,14 @@
 
 #include "Hazel/Window.h"
 
-#include "GLFW/glfw3.h"
+#include <GLFW/glfw3.h>
 
 namespace Hazel {
-  class WindowsWindow : public Window {
+  class LinuxWindow : public Window {
   public:
-    WindowsWindow(const WindowProps& props);
+    LinuxWindow(const WindowProps& props);
 
-    virtual ~WindowsWindow();
+    virtual ~LinuxWindow();
 
     void OnUpdate() override;
 
