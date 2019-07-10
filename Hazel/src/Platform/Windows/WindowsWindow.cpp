@@ -12,7 +12,7 @@ namespace Hazel {
   static void GLFWErrorCallback(int error, const char* description) {
     HZ_CORE_ERROR("GLFW Error: {0} => {1}", error, description);
   }
-  
+
   static bool s_GLFWInitialized = false;
 
 #ifdef HZ_PLATFORM_WINDOWS
@@ -91,9 +91,15 @@ namespace Hazel {
       {
         KeyPressedEvent event(key, 0);
         data.EventCallback(event);
-        break;  
+        break;
       }
       }
+    });
+
+    glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int character) {
+      struct WindowData& data = *(struct WindowData*)glfwGetWindowUserPointer(window);
+      KeyTypedEvent event(character);
+      data.EventCallback(event);
     });
 
     glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) {
@@ -106,6 +112,12 @@ namespace Hazel {
         data.EventCallback(event);
         break;
       }
+      case GLFW_RELEASE:
+      {
+        MouseButtonReleasedEvent event(button);
+        data.EventCallback(event);
+        break;
+      }
       }
     });
 
@@ -114,7 +126,7 @@ namespace Hazel {
 
       MouseScrolledEvent event((float)xOffset, (float)yOffset);
       data.EventCallback(event);
-      
+
     });
 
     glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPosition, double yPosition) {

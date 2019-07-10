@@ -7,12 +7,14 @@ extern Hazel::Application* Hazel::CreateApplication();
 int main(int argc, char** argv) {
   Hazel::Log::Init();
 
-  HZ_CORE_WARN("[WARNING] Core Logger ready");
-  HZ_INFO("[INFO] Client Logger ready.");
+  HZ_CORE_INFO("[INFO] Initiating Hazel Engine.");
  
   auto app = Hazel::CreateApplication();
   app->Run();
   delete app;
+
+
+  return EXIT_SUCCESS;
 }
 
 #endif
