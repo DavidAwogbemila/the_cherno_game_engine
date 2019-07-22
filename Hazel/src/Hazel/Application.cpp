@@ -1,15 +1,14 @@
 #include "hzpch.h"
 #include "Application.h"
 
-//#include "Hazel/Log.h"
-
 #include <glad/glad.h>
+#include "Input.h"
 
 namespace Hazel {
 
 #define BIND_EVENT_FN(fn) std::bind(&Application::fn, this, std::placeholders::_1)
 
-  Application * Application::s_Instance = nullptr;
+  Application* Application::s_Instance = nullptr;
 
   Application::Application() {
     HZ_CORE_ASSERT(!s_Instance, "Application already exists.")
@@ -48,6 +47,9 @@ namespace Hazel {
         layer->OnUpdate();
       }
 
+      auto[x, y] = Input::GetMousePosition();
+      HZ_CORE_INFO("{0}, {1}", x, y);
+
       m_Window->OnUpdate();
     }
   }
@@ -66,4 +68,5 @@ namespace Hazel {
     m_LayerStack.PushOverlay(layer);
     layer->OnAttach();
   }
+
 }

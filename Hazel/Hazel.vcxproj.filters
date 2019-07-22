@@ -54,6 +54,9 @@
     <ClInclude Include="src\Hazel\ImGui\ImGuiLayer.h">
       <Filter>src\Hazel\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Input.h">
+      <Filter>src\Hazel</Filter>
+    </ClInclude>
     <ClInclude Include="src\Hazel\Layer.h">
       <Filter>src\Hazel</Filter>
     </ClInclude>
@@ -71,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h">
       <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h">
+      <Filter>src\Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>src\Platform\Windows</Filter>
@@ -100,6 +106,9 @@
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
+      <Filter>src\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\Platform\Windows</Filter>
