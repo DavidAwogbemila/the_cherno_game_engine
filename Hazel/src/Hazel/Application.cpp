@@ -47,9 +47,6 @@ namespace Hazel {
         layer->OnUpdate();
       }
 
-      auto[x, y] = Input::GetMousePosition();
-      HZ_CORE_INFO("{0}, {1}", x, y);
-
       m_Window->OnUpdate();
     }
   }
