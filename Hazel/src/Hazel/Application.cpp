@@ -15,6 +15,8 @@ namespace Hazel {
     s_Instance = this;
     m_Window = std::unique_ptr<Window>(Window::Create());
     m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+    m_ImGuiLayer = new ImGuiLayer();
+    PushOverlay(m_ImGuiLayer);
   }
 
   Application::~Application() {
@@ -35,10 +37,6 @@ namespace Hazel {
 
   void Application::Run() {
 
-    WindowResizeEvent e(1200, 720);
-    
-    HZ_TRACE(e);
-
     while (m_Running) {
       glClearColor(1.0f, 0.0f, 1.0f, 1);
       glClear(GL_COLOR_BUFFER_BIT);
@@ -46,6 +44,11 @@ namespace Hazel {
       for (Layer* layer : m_LayerStack) {
         layer->OnUpdate();
       }
+      m_ImGuiLayer->Begin();
+      for (Layer* layer : m_LayerStack) {
+        layer->OnImGuiRender();
+      }
+      m_ImGuiLayer->End();
 
       m_Window->OnUpdate();
     }
