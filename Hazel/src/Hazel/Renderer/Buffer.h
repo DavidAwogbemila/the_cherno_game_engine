@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 namespace Hazel {
 
   enum class ShaderDataType: uint8_t {
@@ -24,6 +22,7 @@ namespace Hazel {
     }
 
     HZ_CORE_ASSERT(false, "Unknown Shader Data type");
+    return 0;
   }
 
   struct BufferElement {
@@ -56,6 +55,7 @@ namespace Hazel {
       }
 
       HZ_CORE_ASSERT(false, "Unknown ShaderDataType!");
+      return 0;
     }
   };
 
@@ -67,7 +67,7 @@ namespace Hazel {
       CalculateOffsetsAndStride();
     }
 
-    inline uint32_t GetStride() { return m_Stride; }
+    uint32_t GetStride() const { return m_Stride; }
 
     std::vector<BufferElement>::const_iterator begin() const { return m_Elements.begin(); }
     std::vector<BufferElement>::const_iterator end() const { return m_Elements.end(); }
@@ -92,8 +92,8 @@ namespace Hazel {
 
   class VertexBuffer {
   public:
-    //virtual ~VertexBuffer();
-    virtual void SetData() = 0;
+    virtual ~VertexBuffer() = default;
+    //virtual void SetData() = 0;
 
     virtual void Bind() const = 0;
     virtual void UnBind() const = 0;
@@ -106,7 +106,7 @@ namespace Hazel {
 
   class IndexBuffer {
   public:
-    //virtual ~IndexBuffer();
+    virtual ~IndexBuffer() = default;
 
     virtual void Bind() const = 0;
     virtual void UnBind() const = 0;

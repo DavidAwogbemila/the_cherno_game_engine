@@ -11,7 +11,6 @@ namespace Hazel {
 
     virtual void Bind() const override;
     virtual void UnBind() const override;
-    virtual void SetData() override;
 
     virtual const BufferLayout GetBufferLayout() const override { return m_Layout; }
     virtual void SetBufferLayout(const BufferLayout& layout) override { m_Layout = layout; }
