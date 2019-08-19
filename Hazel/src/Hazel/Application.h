@@ -11,6 +11,7 @@
 #include "Hazel/Renderer/Shader.h"
 #include "Hazel/Renderer/Buffer.h"
 #include "Hazel/Renderer/VertexArray.h"
+#include "Hazel/Renderer/OrthographicCamera.h"
 
 namespace Hazel {
  
@@ -28,8 +29,8 @@ namespace Hazel {
     inline static Application& Get() { return *s_Instance; }
     inline Window& GetWindow() { return *m_Window;  }
 
+
   private:
-    static Application* s_Instance;
     bool OnWindowClose(WindowCloseEvent&e);
 
     std::unique_ptr<Window> m_Window;
@@ -42,6 +43,10 @@ namespace Hazel {
     
     std::shared_ptr<VertexArray> m_SquareVA;
     std::shared_ptr<Shader> m_BlueShader;
+
+    OrthographicCamera m_Camera;
+  private:
+    static Application* s_Instance;
   };
 
   // To be defined in client.

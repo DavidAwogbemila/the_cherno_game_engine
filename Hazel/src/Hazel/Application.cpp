@@ -8,27 +8,10 @@ namespace Hazel {
 
 #define BIND_EVENT_FN(fn) std::bind(&Application::fn, this, std::placeholders::_1)
 
-  /*static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
-    switch (type) {
-    case ShaderDataType::Float: return GL_FLOAT;
-    case ShaderDataType::Float2: return GL_FLOAT;
-    case ShaderDataType::Float3: return GL_FLOAT;
-    case ShaderDataType::Float4: return GL_FLOAT;
-    case ShaderDataType::Mat3: return GL_FLOAT;
-    case ShaderDataType::Mat4: return GL_FLOAT;
-    case ShaderDataType::Int: return GL_INT;
-    case ShaderDataType::Int2: return GL_INT;
-    case ShaderDataType::Int3: return GL_INT;
-    case ShaderDataType::Int4: return GL_INT;
-    case ShaderDataType::Bool: return GL_BOOL;
-    }
-
-    HZ_CORE_ASSERT(false, "Unknown ShaderDataType!");
-  }*/
-
   Application* Application::s_Instance = nullptr;
 
-  Application::Application() {
+  Application::Application()
+  : m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) {
     HZ_CORE_ASSERT(!s_Instance, "Application already exists.")
     s_Instance = this;
     m_Window = std::unique_ptr<Window>(Window::Create());
@@ -70,12 +53,6 @@ namespace Hazel {
        0.0f, 0.5f, 0.0f
     };
 
-    BufferLayout SquareVBlayout = {
-     {ShaderDataType::Float3, "a_Position"},
-     {ShaderDataType::Float4, "a_Color"}
-    };
-
-
     m_SquareVA.reset(VertexArray::Create());
     std::shared_ptr<VertexBuffer> squareVB;
     squareVB.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
@@ -101,10 +78,12 @@ namespace Hazel {
         out vec3 v_Position;
         out vec4 v_Color;
 
+        uniform mat4 u_ViewProjection;
+
         void main() {
           v_Position = a_Position;
           v_Color = a_Color;
-          gl_Position = vec4(a_Position, 1.0);
+          gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
         }
     )";
 
@@ -114,6 +93,7 @@ namespace Hazel {
         out vec4 color;
         in vec3 v_Position;
         in vec4 v_Color;
+
 
         void main() {
           color = vec4(v_Position * 0.5 + 0.5, 1.0);
@@ -129,10 +109,11 @@ namespace Hazel {
         layout(location = 1) in vec4 a_Color;
         
         out vec3 v_Position;
+        uniform mat4 u_ViewProjection;
 
         void main() {
           v_Position = a_Position;
-          gl_Position = vec4(a_Position, 1.0);
+          gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
         }
     )";
 
@@ -141,7 +122,6 @@ namespace Hazel {
 
         out vec4 color;
         in vec3 v_Position;
-        //in vec4 v_Color;
 
         void main() {
           color = vec4(0.2, 0.3, 0.8, 1.0);
@@ -172,16 +152,16 @@ namespace Hazel {
 
     while (m_Running) {
 
-      RenderCommand::SetClearColor(glm::vec4(1.0f, 0.0f, 1.0f, 1));
+      RenderCommand::SetClearColor({ 1.0f, 0.0f, 1.0f, 1 });
       RenderCommand::Clear();
 
-      Renderer::BeginScene();
+      m_Camera.SetPosition({ 0.5f, 0.5f, 0.0f });
+      m_Camera.SetRotation(45.0f);
+
+      Renderer::BeginScene(m_Camera);
       
-      m_BlueShader->Bind();
-      Renderer::Submit(m_SquareVA);
-      
-      m_Shader->Bind();
-      Renderer::Submit(m_VertexArray);
+      Renderer::Submit(m_BlueShader, m_SquareVA);
+      Renderer::Submit(m_Shader, m_VertexArray);
       
       Renderer::EndScene();
 
