@@ -1,11 +1,13 @@
 #include <Hazel.h>
-//#include <glm/glm/glm.hpp>
+
 #include "imgui/imgui.h"
+
+#include <glm/gtc/matrix_transform.hpp>
 
 class ExampleLayer : public  Hazel::Layer {
 public:
   ExampleLayer()
-    : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f) {
+    : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_SquarePosition(0.0f) {
     m_VertexArray.reset(Hazel::VertexArray::Create());
 
     // Set up data to draw triangle.
@@ -65,11 +67,12 @@ public:
         out vec4 v_Color;
 
         uniform mat4 u_ViewProjection;
+        uniform mat4 u_Transform;
 
         void main() {
           v_Position = a_Position;
           v_Color = a_Color;
-          gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+          gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
         }
     )";
 
@@ -96,10 +99,11 @@ public:
         
         out vec3 v_Position;
         uniform mat4 u_ViewProjection;
+        uniform mat4 u_Transform;
 
         void main() {
           v_Position = a_Position;
-          gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+          gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
         }
     )";
 
@@ -145,6 +149,22 @@ public:
     else if (Hazel::Input::IsKeyPressed(HZ_KEY_D)) {
       m_CameraRotation -= m_CameraRotationSpeed * ts;
     }
+    
+    if (Hazel::Input::IsKeyPressed(HZ_KEY_J)) {
+      m_SquarePosition.x -= m_SquareMoveSpeed * ts;
+    }
+
+    else if (Hazel::Input::IsKeyPressed(HZ_KEY_L)) {
+      m_SquarePosition.x += m_SquareMoveSpeed * ts;
+    }
+
+    if (Hazel::Input::IsKeyPressed(HZ_KEY_I)) {
+      m_SquarePosition.y += m_SquareMoveSpeed * ts;
+    }
+
+    else if (Hazel::Input::IsKeyPressed(HZ_KEY_K)) {
+      m_SquarePosition.y -= m_SquareMoveSpeed * ts;
+    }
 
     Hazel::RenderCommand::SetClearColor({ 1.0f, 0.0f, 1.0f, 1 });
     Hazel::RenderCommand::Clear();
@@ -154,7 +174,16 @@ public:
 
     Hazel::Renderer::BeginScene(m_Camera);
 
-    Hazel::Renderer::Submit(m_BlueShader, m_SquareVA);
+    glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+    for (int i = 0; i < 20; i++) {
+      for (int j = 0; j < 20; j++) {
+        glm::vec3 pos(i * 0.1f, j * .1f, 0.0f);
+
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+        Hazel::Renderer::Submit((i % 2 == 0 ? m_Shader : m_BlueShader), m_SquareVA, transform);
+      }
+    }
+
     Hazel::Renderer::Submit(m_Shader, m_VertexArray);
 
     Hazel::Renderer::EndScene();
@@ -180,6 +209,9 @@ private:
   float m_CameraMoveSpeed = 5.0f;
   float m_CameraRotation = 0.0f;
   float m_CameraRotationSpeed = 180.0f;
+
+  glm::vec3 m_SquarePosition;
+  float m_SquareMoveSpeed = 1.0f;
 };
 
 class Sandbox : public Hazel::Application {
