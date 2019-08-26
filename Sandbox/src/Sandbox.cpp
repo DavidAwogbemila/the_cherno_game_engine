@@ -20,7 +20,7 @@ public:
       -0.25f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f
     };
 
-    std::shared_ptr<Hazel::VertexBuffer> vertexBuffer;
+  Hazel::Ref<Hazel::VertexBuffer> vertexBuffer;
     vertexBuffer.reset(Hazel::VertexBuffer::Create(vertices, sizeof(vertices)));
 
     vertexBuffer->SetBufferLayout({
@@ -32,7 +32,7 @@ public:
 
     unsigned int indices[3] = { 0, 1, 2 };
 
-    std::shared_ptr<Hazel::IndexBuffer> indexBuffer;
+    Hazel::Ref<Hazel::IndexBuffer> indexBuffer;
     indexBuffer.reset(Hazel::IndexBuffer::Create(indices, 3));
     m_VertexArray->SetIndexBuffer(indexBuffer);
 
@@ -55,7 +55,7 @@ public:
     m_SquareVA->AddVertexBuffer(squareVB);
 
     unsigned int squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-    std::shared_ptr<Hazel::IndexBuffer> squareIB;
+    Hazel::Ref<Hazel::IndexBuffer> squareIB;
     squareIB.reset(Hazel::IndexBuffer::Create(squareIndices, sizeof(squareIndices)));
     m_SquareVA->SetIndexBuffer(squareIB);
 
@@ -211,11 +211,11 @@ public:
 
   }
 private:
-  std::shared_ptr<Hazel::Shader> m_Shader;
-  std::shared_ptr<Hazel::VertexArray> m_VertexArray;
+  Hazel::Ref<Hazel::Shader> m_Shader;
+  Hazel::Ref<Hazel::VertexArray> m_VertexArray;
 
-  std::shared_ptr<Hazel::VertexArray> m_SquareVA;
-  std::shared_ptr<Hazel::Shader> m_FlatColorShader;
+  Hazel::Ref<Hazel::VertexArray> m_SquareVA;
+  Hazel::Ref<Hazel::Shader> m_FlatColorShader;
 
   Hazel::OrthographicCamera m_Camera;
   glm::vec3 m_CameraPosition;
