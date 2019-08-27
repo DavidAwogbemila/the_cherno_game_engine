@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\Textures\Checkerboard.png" />
+    <Image Include="assets\Textures\ChernoLogo.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
