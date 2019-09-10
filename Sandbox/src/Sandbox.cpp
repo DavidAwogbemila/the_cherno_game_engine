@@ -152,11 +152,10 @@ public:
         uniform sampler2D u_Texture;
 
         void main() {
-          //color = vec4(1, 0.5, 0.25, 1.0);
           color = texture(u_Texture, v_TexCoord);
         }
     )";
-      m_TextureShader.reset(Hazel::Shader::Create(textureShaderVertexSrc, textureShaderFragmentSrc));
+      m_TextureShader.reset(Hazel::Shader::Create("assets/shaders/Texture.glsl"));
     }
 
     m_Texture = Hazel::Texture2D::Create("assets/Textures/Checkerboard.png");
